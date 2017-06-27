@@ -29,4 +29,4 @@ if __name__ == '__main__':
     s.listen(10)
     while True:
         sock,addr = s.accept()
-        t = threading.Thread(target=)
+        t = threading.Thread(target=tcplink(),args=(sock,addr))
