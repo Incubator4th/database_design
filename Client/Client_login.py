@@ -7,7 +7,6 @@ address = ('127.0.0.1', 20176)
 class Client_login(tk.Frame):
 
     def __init__(self,master=None):
-
         tk.Frame.__init__(self,master=master)
 
         self.username = tk.StringVar(value='')
@@ -40,9 +39,10 @@ class Client_login(tk.Frame):
         logininfo = logininfo.decode()
         if 'success' in logininfo:
             loginpage.destory()
-            MainPage.MainPage()
+            m = MainPage.MainPage()
+            m.mainloop()
         elif 'Error' in logininfo:
-            pass#设置错误提示
+            pass#账号或密码错误
         else:
             pass#连接错误
 

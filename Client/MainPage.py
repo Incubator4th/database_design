@@ -1,7 +1,7 @@
 #MainPage
 
 import tkinter as tk
-
+from . import Client_login
 
 
 class MainPage(tk.Frame):
