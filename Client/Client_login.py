@@ -33,9 +33,18 @@ class Client_login(tk.Frame):
         password = self.password.get()
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         s.connect(address)
-        if username and password:
+        bytedata = 'U&P ' + username + ' ' + password
+        bytedata = bytedata.encode()
+        s.send(bytedata)
+        logininfo = s.recv(1024)
+        logininfo = logininfo.decode()
+        if 'success' in logininfo:
             loginpage.destory()
             MainPage.MainPage()
+        elif 'Error' in logininfo:
+            pass#设置错误提示
+        else:
+            pass#连接错误
 
 
 

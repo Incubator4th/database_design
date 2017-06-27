@@ -5,22 +5,26 @@ from time import sleep
 
 address = ('127.0.0.1', 20176)
 
-def checkuser(username,password):
-    conn = pymysql.connect()
-    cursor = conn.cursor()
+def checkuser(username,password,cursor):
+
     cursor.execute('''select * from 111 WHERE username == %d AND password == %d''' % (int(username),int(password)))
     return cursor.fetchall()
 
 
 def tcplink(sock,addr):
+    conn = pymysql.connect()
+    cursor = conn.cursor()
     while True:
         datalist = sock.recv(1024).split(" ")
         datalist = datalist.decode()
         sleep(1)
         if len(datalist) == 3:
-            if datalist[0] == 'U&P' and checkuser(datalist[1],datalist[2]):
-                break#登陆成功
-            sock.send(b'Login success')
+            if datalist[0] == 'U&P' and checkuser(datalist[1],datalist[2],cursor=cursor):
+                sock.send(b'Login success')#登陆成功
+            else:
+                sock.send(b'Error')#发送错误消息
+                break
+
     sock.close()
 
 if __name__ == '__main__':
