@@ -39,7 +39,7 @@ class MainPage(tk.Frame):
         self.TabStrip1__Tab3 = tk.Frame(self.TabStrip1)
         self.TabStrip1__Tab3Lbl = tk.Label(self.TabStrip1__Tab3, text='Please add widgets in code.')
         self.TabStrip1__Tab3Lbl.place(relx=0.1, rely=0.5)
-        self.TabStrip1.add(self.TabStrip1__Tab3, text='我的选课')
+        self.TabStrip1.add(self.TabStrip1__Tab3, text='查看成绩')
 
 
 if __name__ == '__main__':
