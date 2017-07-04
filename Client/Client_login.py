@@ -3,7 +3,8 @@ import socket
 import MainPage
 
 address = ('127.0.0.1', 20176)
-
+sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+sock.connect(address)
 global loginmode
 
 class Client_login(tk.Frame):
@@ -38,8 +39,6 @@ class Client_login(tk.Frame):
     def login(self):
         username = self.username.get()
         password = self.password.get()
-        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        sock.connect(address)
         data = {
             'username': username,
             'password': password,

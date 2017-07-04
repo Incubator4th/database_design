@@ -33,8 +33,8 @@ def tcplink(sock,addr):
 
 if __name__ == '__main__':
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.bind(address=address)
+    s.bind(address)
     s.listen(10)
     while True:
         sock,addr = s.accept()
-        t = threading.Thread(target=tcplink(),args=(sock,addr))
+        t = threading.Thread(target=tcplink,args=(sock,addr))
