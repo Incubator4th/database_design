@@ -7,6 +7,12 @@ import Client_login as cl
 address = ('127.0.0.1', 20176)
 #sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 #sock.connect(address)
+trans_dict = {
+    'id': '学号',
+    'name': '姓名',
+    'classes': '班级',
+    'sex': '性别'
+}
 
 default_info = {
     '姓名': None,
@@ -15,7 +21,7 @@ default_info = {
     '性别': 'Unknown',
 
 }
-
+info_column=('id','name','sex','classes')
 
 class MainPage(tk.Frame):
 
@@ -30,10 +36,7 @@ class MainPage(tk.Frame):
         self.upLabel = tk.Label(self, text='欢迎登录教务系统', font='微软雅黑').grid(row=0, column=1, stick=tk.W)
 
         self.top = self.winfo_toplevel()
-        self.scrollBar = tk.Scrollbar(self)
-        self.scrollBar.pack(side=tk.RIGHT, fill=tk.Y)
 
-        self.tree_1 = ttk.Treeview(self)
 
         self.style = ttk.Style()
 
@@ -41,8 +44,22 @@ class MainPage(tk.Frame):
         self.TabStrip1.place(relx=0.062, rely=0.071, relwidth=0.887, relheight=0.876)
 
         self.TabStrip1__Tab1 = tk.Frame(self.TabStrip1)
-        self.TabStrip1__Tab1Lbl = tk.Label(self.TabStrip1__Tab1, text='Please add widgets in code.')
-        self.TabStrip1__Tab1Lbl.place(relx=0.1, rely=0.5)
+
+        self.scrollBar = tk.Scrollbar(self.TabStrip1__Tab1)
+        self.scrollBar.pack(side=tk.RIGHT, fill=tk.Y)
+
+        self.tree_1 = ttk.Treeview(self.TabStrip1__Tab1,
+                                   columns=info_column,
+                                   show='headings',
+                                   yscrollcommand=self.scrollBar)
+
+        for info in info_column:
+            self.tree_1.column(info, width=80, anchor='center')
+            self.tree_1.heading(info, text=trans_dict[info])
+
+        self.tree_1.pack(side=tk.LEFT, fill=tk.Y)
+        self.scrollBar.config(command=self.tree_1.yview)
+
         self.TabStrip1.add(self.TabStrip1__Tab1, text='我的信息')
 
         self.TabStrip1__Tab2 = tk.Frame(self.TabStrip1)
