@@ -3,9 +3,8 @@ import socket
 import MainPage
 
 address = ('127.0.0.1', 20176)
-sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-sock.connect(address)
-global loginmode
+
+global login_mode
 
 class Client_login(tk.Frame):
 
@@ -22,10 +21,9 @@ class Client_login(tk.Frame):
     def createwidgets(self):
 
         self.upLabel = tk.Label(self, text='登录教务系统', font='微软雅黑').grid(row=0, column=1,stick=tk.W,  pady=5)
+
         self.rad1 = tk.Radiobutton(text='学生', font='微软雅黑', variable=self.radVar, value=1,command=self.radcall).pack(side=tk.LEFT, padx=15)
-
         self.rad2 = tk.Radiobutton(text='教师', font='微软雅黑', variable=self.radVar, value=2, command=self.radcall).pack(side=tk.LEFT, padx=15)
-
         self.rad3 = tk.Radiobutton(text='管理员', font='微软雅黑', variable=self.radVar, value=3, command=self.radcall).pack(side=tk.LEFT, padx=15)
 
         self.userLabel = tk.Label(self, text='Username:').grid(row=1, stick=tk.W, pady=5)
@@ -33,7 +31,7 @@ class Client_login(tk.Frame):
         self.passLabel = tk.Label(self, text='Password:').grid(row=2, stick=tk.W, pady=5)
         self.passEntry = tk.Entry(self, textvariable=self.password).grid(row=2, column=1, stick=tk.E)
 
-        self.loginButton = tk.Button(self, text='Log in', command=None).grid(row=3, stick=tk.W, pady=5)
+        self.loginButton = tk.Button(self, text='Log in', command=self.login).grid(row=3, stick=tk.W, pady=5)
         self.exitButton = tk.Button(self, text='Exit', command=self.quit).grid(row=3, column=1, stick=tk.E)
 
     def login(self):
@@ -42,8 +40,10 @@ class Client_login(tk.Frame):
         data = {
             'username': username,
             'password': password,
-            'loginmode': loginmode
+            'login_mode': login_mode
         }
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        sock.connect(address)
         bytedata = repr(data).encode()
         sock.send(bytedata)
         logininfo = sock.recv(1024)
@@ -51,7 +51,7 @@ class Client_login(tk.Frame):
         if 'success' in logininfo:
             userinfo = sock.recv(1024)
             userinfo = repr(userinfo.decode())
-            loginpage.destory()
+            self.destory()
             m = MainPage.MainPage(userinfo=userinfo)
             m.mainloop()
         elif 'Error' in logininfo:
@@ -60,7 +60,7 @@ class Client_login(tk.Frame):
             pass#连接错误
 
     def radcall(self):
-        loginmode = self.radVar.get()
+        login_mode = self.radVar.get()
 
 
 

@@ -5,12 +5,21 @@ import tkinter.ttk as ttk
 import Client_login as cl
 
 address = ('127.0.0.1', 20176)
-sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-sock.connect(address)
+#sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+#sock.connect(address)
+
+default_info = {
+    '姓名': None,
+    '学号': None,
+    '班级': None,
+    '性别': 'Unknown',
+
+}
+
 
 class MainPage(tk.Frame):
 
-    def __init__(self, userinfo={}, master=None):
+    def __init__(self, userinfo=default_info, master=None):
         tk.Frame.__init__(self, master=master)
         self.master.title('Form1')
         self.master.geometry('389x339')
@@ -18,8 +27,13 @@ class MainPage(tk.Frame):
         self.createwidgets()
 
     def createwidgets(self):
-        self.upLabel = tk.Label(self, text='登录教务系统', font='微软雅黑').grid(row=0, column=1, stick=tk.W, pady=5)
+        self.upLabel = tk.Label(self, text='欢迎登录教务系统', font='微软雅黑').grid(row=0, column=1, stick=tk.W)
+
         self.top = self.winfo_toplevel()
+        self.scrollBar = tk.Scrollbar(self)
+        self.scrollBar.pack(side=tk.RIGHT, fill=tk.Y)
+
+        self.tree_1 = ttk.Treeview(self)
 
         self.style = ttk.Style()
 
